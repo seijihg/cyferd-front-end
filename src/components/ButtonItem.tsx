@@ -6,14 +6,14 @@ interface IButtonProps {
 }
 
 const ItemStyled = styled.p<{ primary?: boolean }>`
+  color: #575757;
   transition: color 250ms;
   cursor: pointer;
   font-family: "Montserrat", Sans-serif;
   letter-spacing: 0.5px;
-  color: #575757;
 
   &:hover {
-    color: red;
+    color: #c13f17;
     transition: color 250ms;
   }
 `;
