@@ -1,12 +1,11 @@
 import { FC } from "react";
 import ButtonItem from "./ButtonItem";
-import DescSection from "./DescSection";
 
 const MenuBar: FC = () => {
   return (
     <div className="top-menu">
       <div className="logo">
-        <img src="/img/logo.png" />
+        <img src="/img/logo.png" alt="cyferd-logo" />
       </div>
       <div className="menu">
         <ButtonItem name="Home" />

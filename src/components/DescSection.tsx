@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import SocialIcon from "./SocialIcon";
 
@@ -58,7 +58,7 @@ const Section = styled.section`
 
 const H1Styled = styled.h1`
   padding: 0 10% 0 10%;
-
+  font-size: 2rem;
   font-family: "Open Sans Hebrew", Sans-serif;
   font-style: bold;
 
@@ -69,10 +69,12 @@ const H1Styled = styled.h1`
 
 const ParagraphStyled = styled.p`
   padding-top: 1rem;
+  padding-bottom: 2rem;
   padding-left: 10%;
   padding-right: 40%;
   font-family: "Cabin", sans-serif;
   line-height: 1.5;
+  font-size: 1.5rem;
 
   @media (max-width: 600px) {
     font-size: 0.6rem;
@@ -91,6 +93,17 @@ const Shape = styled.div`
 `;
 
 const DescSection: FC = () => {
+  const [windowSize, setWindowSize] = useState<number>(window.innerWidth);
+  const checkWindowSize = () => {
+    setWindowSize(window.innerWidth);
+  };
+
+  useEffect(() => {
+    window.addEventListener("resize", checkWindowSize);
+
+    return () => window.removeEventListener("resize", checkWindowSize);
+  }, []);
+  console.log(windowSize);
   return (
     <Section>
       <H1Styled>
@@ -101,8 +114,19 @@ const DescSection: FC = () => {
         enables full access to all your data, in one place, whenever and
         wherever you need it.{" "}
       </ParagraphStyled>
-      <div>
-        <SocialIcon />
+      <div
+        style={{
+          display: "flex",
+          marginTop: windowSize < 960 ? "0" : "3rem",
+        }}
+      >
+        <div style={{ width: windowSize < 960 ? "60%" : "70%" }}></div>
+        <div>
+          <SocialIcon iconName="faLinkedin" />
+          <SocialIcon iconName="faTwitterSquare" />
+          <SocialIcon iconName="faFacebook" />
+          <SocialIcon iconName="faInstagramSquare" />
+        </div>
       </div>
       <Shape>
         <svg
