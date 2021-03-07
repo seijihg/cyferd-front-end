@@ -1,7 +1,8 @@
 import { FC } from "react";
 import ButtonItem from "./ButtonItem";
+import { ILoginProps } from "./LoginForm";
 
-const MenuBar: FC = () => {
+const MenuBar: FC<ILoginProps> = ({ setLogin }) => {
   return (
     <div className="top-menu">
       <div className="logo">
@@ -11,7 +12,9 @@ const MenuBar: FC = () => {
         <ButtonItem name="Home" />
         <ButtonItem name="Platform" />
         <ButtonItem name="Solutions" />
-        <ButtonItem name="Login" />
+        <div onClick={() => setLogin(true)}>
+          <ButtonItem name="Login" />
+        </div>
       </div>
     </div>
   );

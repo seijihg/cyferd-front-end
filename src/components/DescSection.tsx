@@ -2,6 +2,16 @@ import { FC, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import SocialIcon from "./SocialIcon";
 
+export const H1 = `
+padding: 0 10% 0 10%;
+font-size: 2rem;
+font-family: "Open Sans Hebrew", Sans-serif;
+font-style: bold;
+
+@media (max-width: 600px) {
+  font-size: 0.8rem;
+}`;
+
 const breatheAnimation = keyframes`
   0% {
     background-position: 0 50%;
@@ -56,15 +66,8 @@ const Section = styled.section`
   animation: ${breatheAnimation} 15s ease-in-out infinite;
 `;
 
-const H1Styled = styled.h1`
-  padding: 0 10% 0 10%;
-  font-size: 2rem;
-  font-family: "Open Sans Hebrew", Sans-serif;
-  font-style: bold;
-
-  @media (max-width: 600px) {
-    font-size: 0.8rem;
-  }
+const H1Desc = styled.h1`
+  ${H1}
 `;
 
 const ParagraphStyled = styled.p`
@@ -103,12 +106,12 @@ const DescSection: FC = () => {
 
     return () => window.removeEventListener("resize", checkWindowSize);
   }, []);
-  console.log(windowSize);
+
   return (
     <Section>
-      <H1Styled>
+      <H1Desc>
         THE HOLISTIC DIGITAL <br /> TRANSFORMATION PLATFORM
-      </H1Styled>
+      </H1Desc>
       <ParagraphStyled>
         Regain control of your enterprise with no-code solution development that
         enables full access to all your data, in one place, whenever and
