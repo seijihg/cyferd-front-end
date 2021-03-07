@@ -12,15 +12,36 @@ const LoginSchema = Yup.object().shape({
     [Yup.ref("password"), null],
     "Password must match"
   ),
-  dob: Yup.string().required("Required field."),
+  dob: Yup.date().required("Input day of birth"),
   age: Yup.number()
+    .typeError("Make sure its a number.")
     .min(18, "Minimum 18 years old.")
-    .required("Required field."),
+    .when("dob", (dob: Date, schema: Yup.AnySchema) => {
+      return schema.test({
+        test: (age: any) => {
+          const todaysYear = new Date().getFullYear();
+          const differenceAge = todaysYear - dob.getFullYear();
+          if (differenceAge === age) {
+            return true;
+          }
+          return false;
+        },
+        message: "Has to be the same age as in Day of Birth",
+      });
+    }),
   acceptTerms: Yup.bool().oneOf([true], "Must accept terms and conditions."),
 });
 
 const InputStyled = styled.input`
-  padding: 0.5rem;
+  padding: 0.6rem;
+  margin: 0.5rem 0;
+  width: 100%;
+  font-family: "Libre Franklin", "Helvetica Neue", helvetica, arial, sans-serif;
+  font-size: 1rem;
+
+  @media (max-width: 600px) {
+    font-size: 0.6rem;
+  }
 `;
 
 const WindowLogin = styled.div`
@@ -39,12 +60,55 @@ const WindowLogin = styled.div`
     background: white;
     width: fit-content;
     padding: 2rem;
+    border: 2px solid #01bd80;
   }
 `;
 
 const H1Login = styled.h1`
   ${H1}
   padding: 0;
+  margin-bottom: 1rem;
+`;
+
+const ErrorMess = styled.div`
+  color: red;
+  font-family: "Libre Franklin", "Helvetica Neue", helvetica, arial, sans-serif;
+  font-size: 1rem;
+  @media (max-width: 600px) {
+    font-size: 0.6rem;
+  }
+`;
+
+const styledPandSpan = `
+  font-family: "Cabin", sans-serif;
+  line-height: 1.5;
+  font-size: 1.5rem;
+
+  @media (max-width: 600px) {
+    font-size: 0.6rem;
+    padding-right: 10%;
+  }
+`;
+
+const ParagraphStyled = styled.p`
+  ${styledPandSpan}
+`;
+
+const SpanStyled = styled.span`
+  margin: auto 0;
+  margin-left: 0.5rem;
+  ${styledPandSpan}
+`;
+
+const ButtonStyled = styled.button`
+  margin-top: 1rem;
+  padding: 0.75rem;
+  color: white;
+  background: #d7762a;
+  width: 100%;
+  font-family: "Open Sans Hebrew", Sans-serif;
+  font-style: bold;
+  border: none;
 `;
 
 const LoginForm: FC = () => {
@@ -67,68 +131,102 @@ const LoginForm: FC = () => {
         }}
       >
         {({ values, errors, touched }) => (
-          <Form>
-            <div>
-              <H1Login>Good to see you again</H1Login>
-              <p style={{ marginBottom: "2rem 0" }}>
-                Sign in for member-only services and access to your personal
-                profile.
-              </p>
-            </div>
-            <div>
-              <Field name="name" placeholder="your name" as={InputStyled} />
-              {errors.name && touched.name ? <div>{errors.name}</div> : null}
-            </div>
-            <div>
-              <Field
-                name="password"
-                type="password"
-                placeholder="password"
-                as={InputStyled}
-              />
-              {errors.password && touched.password ? (
-                <div>{errors.password}</div>
-              ) : null}
-            </div>
-            <div>
-              <Field
-                name="passwordConfirm"
-                type="password"
-                placeholder="retype password"
-                as={InputStyled}
-              />
-              {errors.passwordConfirm && touched.passwordConfirm ? (
-                <div>{errors.passwordConfirm}</div>
-              ) : null}
-            </div>
-            <div>
-              <Field name="dob" type="date" placeholder="date of birth">
-                {(obj: FieldProps) => {
-                  const { form, field } = obj;
-                  return (
-                    <DatePicker
-                      onChange={(dob) => form.setFieldValue("dob", dob)}
-                      value={field.value}
-                      maxDate={new Date()}
-                    />
-                  );
-                }}
-              </Field>
-            </div>
-            <div>
-              <Field name="age" placeholder="age" as={InputStyled} />
-              {errors.age && touched.age ? <div>{errors.age}</div> : null}
-            </div>
-            <div>
-              <Field name="acceptTerms" type="checkbox" />
-              {errors.acceptTerms && touched.acceptTerms ? (
-                <div>{errors.acceptTerms}</div>
-              ) : null}
-            </div>
-            <button type="submit">Submit</button>
-            <pre>{JSON.stringify(values, null, 2)}</pre>
-            <pre>{JSON.stringify(errors, null, 2)}</pre>
-          </Form>
+          <div
+            style={{
+              padding: ".1rem",
+              background: "white",
+              margin: "1rem",
+            }}
+          >
+            <Form>
+              <div>
+                <H1Login>Good to see you again</H1Login>
+                <ParagraphStyled>
+                  Sign in for member-only services and access to your personal
+                  profile.
+                </ParagraphStyled>
+              </div>
+              <div>
+                <Field
+                  name="name"
+                  placeholder="your name"
+                  autoComplete="username"
+                  as={InputStyled}
+                />
+                <ErrorMess>
+                  {errors.name && touched.name ? (
+                    <div>{errors.name}</div>
+                  ) : null}
+                </ErrorMess>
+              </div>
+              <div>
+                <Field
+                  name="password"
+                  type="password"
+                  placeholder="password"
+                  autoComplete="new-password"
+                  as={InputStyled}
+                />
+                <ErrorMess>
+                  {errors.password && touched.password ? (
+                    <div>{errors.password}</div>
+                  ) : null}
+                </ErrorMess>
+              </div>
+              <div>
+                <Field
+                  name="passwordConfirm"
+                  type="password"
+                  placeholder="retype password"
+                  autoComplete="new-password"
+                  as={InputStyled}
+                />
+                <ErrorMess>
+                  {errors.passwordConfirm && touched.passwordConfirm ? (
+                    <div>{errors.passwordConfirm}</div>
+                  ) : null}
+                </ErrorMess>
+              </div>
+              <div>
+                <ParagraphStyled>Day of birth:</ParagraphStyled>
+                <Field name="dob" type="date">
+                  {(obj: FieldProps) => {
+                    const { form, field } = obj;
+                    return (
+                      <DatePicker
+                        onChange={(dob) => form.setFieldValue("dob", dob)}
+                        value={field.value}
+                        maxDate={new Date()}
+                      />
+                    );
+                  }}
+                </Field>
+                <ErrorMess>
+                  {errors.dob && touched.dob ? <div>{errors.dob}</div> : null}
+                </ErrorMess>
+              </div>
+              <div>
+                <Field name="age" placeholder="age" as={InputStyled} />
+                <ErrorMess>
+                  {errors.age && touched.age ? <div>{errors.age}</div> : null}
+                </ErrorMess>
+              </div>
+              <div style={{ display: "flex", margin: " 0.5rem 0" }}>
+                <div>
+                  <Field name="acceptTerms" type="checkbox" />
+                </div>
+                <SpanStyled> Terms and Coditions</SpanStyled>
+              </div>
+              <ErrorMess>
+                {errors.acceptTerms && touched.acceptTerms ? (
+                  <div>{errors.acceptTerms}</div>
+                ) : null}
+              </ErrorMess>
+              <ButtonStyled type="submit">Submit</ButtonStyled>
+              <pre>{JSON.stringify(values, null, 2)}</pre>
+              <pre>{JSON.stringify(errors, null, 2)}</pre>
+            </Form>
+          </div>
         )}
       </Formik>
     </WindowLogin>

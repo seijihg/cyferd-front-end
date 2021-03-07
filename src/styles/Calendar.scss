@@ -2,7 +2,7 @@
   width: 350px;
   max-width: 100%;
   background: white;
-  border: 1px solid #a0a096;
+  border: 1px solid #2e6a6b;
   line-height: 1.125em;
 }
 .react-calendar--doubleView {
@@ -67,7 +67,7 @@
   padding: calc(0.75em / 0.75) calc(0.5em / 0.75);
 }
 .react-calendar__month-view__days__day--weekend {
-  color: #d10000;
+  color: #c13f17;
 }
 .react-calendar__month-view__days__day--neighboringMonth {
   color: #757575;
@@ -105,7 +105,7 @@
   background: #a9d4ff;
 }
 .react-calendar__tile--active {
-  background: #006edc;
+  background: #2e6a6b;
   color: white;
 }
 .react-calendar__tile--active:enabled:hover,
