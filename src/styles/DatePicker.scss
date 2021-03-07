@@ -2,6 +2,7 @@
   display: inline-flex;
   position: relative;
   margin: 0.5rem 0;
+  width: 100%;
   @media (max-width: 600px) {
     width: 100%;
     font-size: 0.6rem;
@@ -41,14 +42,18 @@
 }
 .react-date-picker__inputGroup__input {
   min-width: 0.54em;
-  height: 100%;
+  height: 2.5rem;
   position: relative;
-  padding: 0 1px;
+  padding: 0 0.5rem;
   border: 0;
   background: none;
   font: inherit;
   box-sizing: content-box;
   -moz-appearance: textfield;
+
+  @media (max-width: 600px) {
+    height: 100%;
+  }
 }
 .react-date-picker__inputGroup__input::-webkit-outer-spin-button,
 .react-date-picker__inputGroup__input::-webkit-inner-spin-button {

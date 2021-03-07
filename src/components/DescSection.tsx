@@ -106,7 +106,7 @@ const DescSection: FC = () => {
 
     return () => window.removeEventListener("resize", checkWindowSize);
   }, []);
-  console.log(windowSize);
+
   return (
     <Section>
       <H1Desc>

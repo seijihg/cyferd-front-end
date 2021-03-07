@@ -1,9 +1,15 @@
 import { Field, FieldProps, Form, Formik } from "formik";
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import * as Yup from "yup";
 import DatePicker from "react-date-picker/dist/entry.nostyle";
 import styled from "styled-components";
 import { H1 } from "./DescSection";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+
+export interface ILoginProps {
+  setLogin: (login: boolean) => void;
+}
 
 const LoginSchema = Yup.object().shape({
   name: Yup.string().required("Required field."),
@@ -109,9 +115,25 @@ const ButtonStyled = styled.button`
   font-family: "Open Sans Hebrew", Sans-serif;
   font-style: bold;
   border: none;
+  cursor: pointer;
+  transition: background 250ms;
+
+  &:hover {
+    background: #575757;
+    transition: background 250ms;
+  }
 `;
 
-const LoginForm: FC = () => {
+const SuccessfulMess = styled.div`
+  color: white;
+  margin-top: 1rem;
+  background: #01bd80;
+  padding: 0.75rem 0;
+  text-align: center;
+`;
+
+const LoginForm: FC<ILoginProps> = ({ setLogin }) => {
+  const [submitted, setSubmitted] = useState<string>("");
   return (
     <WindowLogin>
       <Formik
@@ -128,6 +150,7 @@ const LoginForm: FC = () => {
           console.log(values);
           actions.setSubmitting(false);
           actions.resetForm();
+          setSubmitted("Form submitted sucessfully");
         }}
       >
         {({ values, errors, touched }) => (
@@ -135,11 +158,22 @@ const LoginForm: FC = () => {
             style={{
               padding: ".1rem",
               background: "white",
-              margin: "1rem",
+              margin: "auto",
+              width: "fit-content",
             }}
           >
-            <Form>
+            <Form style={{ position: "relative" }}>
               <div>
+                <FontAwesomeIcon
+                  icon={faTimesCircle}
+                  style={{
+                    position: "absolute",
+                    right: "1rem",
+                    cursor: "pointer",
+                  }}
+                  size={window.innerWidth < 600 ? "1x" : "lg"}
+                  onClick={() => setLogin(false)}
+                />
                 <H1Login>Good to see you again</H1Login>
                 <ParagraphStyled>
                   Sign in for member-only services and access to your personal
@@ -212,7 +246,7 @@ const LoginForm: FC = () => {
                 </ErrorMess>
               </div>
               <div style={{ display: "flex", margin: " 0.5rem 0" }}>
-                <div>
+                <div style={{ margin: "auto 0" }}>
                   <Field name="acceptTerms" type="checkbox" />
                 </div>
                 <SpanStyled> Terms and Coditions</SpanStyled>
@@ -223,8 +257,11 @@ const LoginForm: FC = () => {
                 ) : null}
               </ErrorMess>
               <ButtonStyled type="submit">Submit</ButtonStyled>
-              <pre>{JSON.stringify(values, null, 2)}</pre>
-              <pre>{JSON.stringify(errors, null, 2)}</pre>
+              {submitted !== "" ? (
+                <SuccessfulMess>{submitted}</SuccessfulMess>
+              ) : null}
+              {/* <pre>{JSON.stringify(values, null, 2)}</pre>
+              <pre>{JSON.stringify(errors, null, 2)}</pre> */}
             </Form>
           </div>
         )}
