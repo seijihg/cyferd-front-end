@@ -1,0 +1,60 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Libre+Franklin:wght@100&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Cabin&display=swap");
+
+@import "./styles/Calendar.scss";
+@import "./styles/DatePicker.scss";
+
+@font-face {
+  font-family: "Open Sans Hebrew";
+  font-style: bold;
+  src: url("./styles/fonts/OpenSansHebrew-Bold.ttf") format("truetype");
+}
+
+$offwhite-colour: #fafafa;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Libre Franklin", "Helvetica Neue", helvetica, arial, sans-serif;
+  background: var(--offwhite-colour);
+  font-size: 16px;
+
+  .top-menu {
+    padding: 0 10% 0 10%;
+    margin: 0 auto;
+    display: flex;
+
+    .logo {
+      width: 40%;
+
+      img {
+        width: 50%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      display: block;
+
+      .logo {
+        width: 100%;
+
+        img {
+          width: 100%;
+        }
+      }
+    }
+
+    .menu {
+      margin: auto;
+      display: flex;
+      justify-content: space-evenly;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+  }
+}
